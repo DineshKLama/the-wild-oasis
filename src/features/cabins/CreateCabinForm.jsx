@@ -26,9 +26,11 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    console.log(data.image[0]);
+    mutate({ ...data, image: data.image[0] });
   }
 
+  // eslint-disable-next-line no-unused-vars
   function onError(errors) {
     // console.log(errors);
   }
@@ -103,7 +105,7 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label='Cabin photo'>
-        <FileInput id='image' accept='image/*' />
+        <FileInput id='image' accept='image/*' {...register('image')} />
       </FormRow>
 
       <FormRow>
@@ -111,7 +113,7 @@ function CreateCabinForm() {
         <Button variation='secondary' type='reset'>
           Cancel
         </Button>
-        <Button disabled={isCreating}>Edit cabin</Button>
+        <Button disabled={isCreating}>Add cabin</Button>
       </FormRow>
     </Form>
   );
