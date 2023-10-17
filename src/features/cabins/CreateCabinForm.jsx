@@ -11,7 +11,7 @@ import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
 // eslint-disable-next-line react/prop-types
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useUpdateCabin();
   // Combining both isCreating and isEditing to get boolean value;
@@ -36,9 +36,23 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     if (isEditSession)
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
-        { onSuccess: () => reset() }
+        {
+          onSuccess: () => {
+            onCloseModel?.();
+            reset();
+          },
+        }
       );
-    else createCabin({ ...data, image: image }, { onSuccess: () => reset() });
+    else
+      createCabin(
+        { ...data, image: image },
+        {
+          onSuccess: () => {
+            onCloseModel?.();
+            reset();
+          },
+        }
+      );
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -47,7 +61,10 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      onSubmit={handleSubmit(onSubmit, onError)}
+      type={onCloseModel ? 'model' : 'regular'}
+    >
       <FormRow label='Cabin name' error={errors?.name?.message}>
         <Input
           type='text'
@@ -127,7 +144,11 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation='secondary' type='reset'>
+        <Button
+          onClick={() => onCloseModel?.()}
+          variation='secondary'
+          type='reset'
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
