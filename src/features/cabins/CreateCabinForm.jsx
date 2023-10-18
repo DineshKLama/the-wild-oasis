@@ -11,7 +11,7 @@ import { useCreateCabin } from './useCreateCabin';
 import { useUpdateCabin } from './useUpdateCabin';
 
 // eslint-disable-next-line react/prop-types
-function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useUpdateCabin();
   // Combining both isCreating and isEditing to get boolean value;
@@ -38,7 +38,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
         { newCabinData: { ...data, image }, id: editId },
         {
           onSuccess: () => {
-            onCloseModel?.();
+            onCloseModal?.();
             reset();
           },
         }
@@ -48,7 +48,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
         { ...data, image: image },
         {
           onSuccess: () => {
-            onCloseModel?.();
+            onCloseModal?.();
             reset();
           },
         }
@@ -63,7 +63,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
   return (
     <Form
       onSubmit={handleSubmit(onSubmit, onError)}
-      type={onCloseModel ? 'model' : 'regular'}
+      type={onCloseModal ? 'modal' : 'regular'}
     >
       <FormRow label='Cabin name' error={errors?.name?.message}>
         <Input
@@ -145,7 +145,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModel }) {
       <FormRow>
         {/* type is an HTML attribute! */}
         <Button
-          onClick={() => onCloseModel?.()}
+          onClick={() => onCloseModal?.()}
           variation='secondary'
           type='reset'
         >
