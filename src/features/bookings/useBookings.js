@@ -17,6 +17,9 @@ export function useBookings() {
   const [field, direction] = currentSortBy.split('-');
   const sortBy = { field, direction };
 
+  // 3) PAGINATION
+  const page = searchParams.get('page') || '';
+
   const {
     data: bookings,
     isLoading,

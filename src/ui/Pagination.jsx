@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi2';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -64,11 +65,11 @@ function Pagination({ count }) {
   const currentPage = !searchParams.get('page')
     ? 1
     : Number(searchParams.get('page'));
-  const pageNum = Math.ceil(count / PAGE_SIZE);
+  const pageCount = Math.ceil(count / PAGE_SIZE);
 
   // Next page
   function nextPage() {
-    const next = currentPage === pageNum ? currentPage : currentPage + 1;
+    const next = currentPage === pageCount ? currentPage : currentPage + 1;
 
     searchParams.set('page', next);
     setSearchParams(searchParams);
@@ -82,13 +83,16 @@ function Pagination({ count }) {
     setSearchParams(searchParams);
   }
 
-  if (count <= PAGE_SIZE) return null;
+  // when data less then 10 or eq then render this
+  if (pageCount <= 1) return null;
 
   return (
     <StyledPagination>
       <P>
         Results: <span>{(currentPage - 1) * PAGE_SIZE}</span> to{' '}
-        <span>{currentPage === pageNum ? count : currentPage * PAGE_SIZE}</span>{' '}
+        <span>
+          {currentPage === pageCount ? count : currentPage * PAGE_SIZE}
+        </span>{' '}
         of <span>{count}</span>
       </P>
 
