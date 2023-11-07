@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import LoginForm from '../features/authentication/LoginForm';
 import Logo from '../ui/Logo';
 import Heading from '../ui/Heading';
+import { useUser } from '../features/authentication/useUser';
+import Button from '../ui/Button';
+import { useNavigate } from 'react-router-dom';
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -14,9 +17,19 @@ const LoginLayout = styled.main`
 `;
 
 function Login() {
+  const { isAuthenticated } = useUser();
+  const navigate = useNavigate();
+
   return (
     <LoginLayout>
       <Logo />
+
+      {isAuthenticated && (
+        <Button onClick={() => navigate('/dashboard')}>
+          Back to dashboard
+        </Button>
+      )}
+
       <Heading as='h4'>Log in to your account</Heading>
       <LoginForm />
     </LoginLayout>
