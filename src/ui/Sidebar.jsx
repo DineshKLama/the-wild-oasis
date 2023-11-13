@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Logo from './Logo';
 import MainNav from './MainNav';
+import { Link } from 'react-router-dom';
 // import Uploader from '../data/Uploader';
 
 const $tyledSidebar = styled.aside`
@@ -17,10 +18,12 @@ const $tyledSidebar = styled.aside`
 function Sidebar() {
   return (
     <$tyledSidebar>
-      <Logo />
+      <Link to='/dashboard'>
+        <Logo />
+      </Link>
       <MainNav />
-
-      {/* <Uploader /> */}
+      {/* 
+      <Uploader /> */}
     </$tyledSidebar>
   );
 }
